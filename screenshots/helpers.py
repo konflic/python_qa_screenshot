@@ -137,7 +137,6 @@ def comparison_test_light_with_draw(
         )
 
     finally:
-
         if clear_images:
             os.remove(master_screenshot_path)
             os.remove(staging_screenshot_path)
@@ -188,9 +187,14 @@ def compare_images_hard(master_screenshot, develop_screenshot, factor=100, cols=
             img.save(buffered, format="PNG")
             return buffered.getvalue()
 
+        os.remove(image_production)
+        os.remove(image_staging)
+
         if has_diff:
             allure.attach(buff(production), attachment_type=allure.attachment_type.PNG, name='expected')
             allure.attach(buff(staging), attachment_type=allure.attachment_type.PNG, name='actual')
             raise AssertionError('Найдены различия при сравнении скриншотов')
+
+
 
     analyze(master_screenshot, develop_screenshot, factor, cols, rows)
