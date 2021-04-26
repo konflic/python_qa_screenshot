@@ -3,7 +3,7 @@ import time
 import allure
 
 from config import TMP_FOLDER
-from screenshots.helpers import comparison_test_light_with_draw
+from screenshots.helpers import comparison_test_light
 
 
 @allure.title("Comparing pages test with basic")
@@ -16,18 +16,18 @@ def test_main_page_remove_elements(browser):
     
     def remove_elements(driver, selectors: list):
         for selector in selectors:
-            browser.execute_script("$('{}')[0].remove()".format(selector))
+            driver.execute_script("$('{}')[0].remove()".format(selector))
 
-    browser.get(browser.base_url)
+    browser.get(browser.prod_url)
     time.sleep(3.5)  # We want slider swipe
     remove_elements(browser, ["#slideshow0", ".swiper-pagination"])
     browser.save_screenshot(master_path)
 
-    browser.get(browser.reference_url)
+    browser.get(browser.stag_url)
     remove_elements(browser, ["#slideshow0", ".swiper-pagination"])
     browser.save_screenshot(staging_path)
 
-    comparison_test_light_with_draw(
+    comparison_test_light(
         master_path,
         staging_path,
         diff_path,

@@ -144,7 +144,7 @@ def comparison_test_light_with_draw(
                 os.remove(difference_screenshot_path)
 
 
-def compare_images_hard(master_screenshot, develop_screenshot, factor=100, cols=90, rows=80):
+def compare_images_hard(master_screenshot, develop_screenshot, factor=1000, cols=90, rows=80):
     def _region_analyze(image, x, y, width, height, factor):
         region_status = 0
 
@@ -157,7 +157,7 @@ def compare_images_hard(master_screenshot, develop_screenshot, factor=100, cols=
                     return None
         return region_status // factor
 
-    def analyze(image_production, image_staging, factor, col, row):
+    def analyze(image_production, image_staging, factor, col, row, clear_image=True):
         production = Image.open(image_production)
         staging = Image.open(image_staging)
 
@@ -178,8 +178,7 @@ def compare_images_hard(master_screenshot, develop_screenshot, factor=100, cols=
                     draw = ImageDraw.Draw(staging)
                     draw.rectangle(
                         (x - 1, y - 1, x + block_width, y + block_height),
-                        outline="red",
-                        width=2
+                        outline="red", width=1
                     )
 
         def buff(img):
@@ -187,14 +186,13 @@ def compare_images_hard(master_screenshot, develop_screenshot, factor=100, cols=
             img.save(buffered, format="PNG")
             return buffered.getvalue()
 
-        os.remove(image_production)
-        os.remove(image_staging)
+        if clear_image:
+            os.remove(image_production)
+            os.remove(image_staging)
 
         if has_diff:
             allure.attach(buff(production), attachment_type=allure.attachment_type.PNG, name='expected')
             allure.attach(buff(staging), attachment_type=allure.attachment_type.PNG, name='actual')
             raise AssertionError('Найдены различия при сравнении скриншотов')
-
-
 
     analyze(master_screenshot, develop_screenshot, factor, cols, rows)

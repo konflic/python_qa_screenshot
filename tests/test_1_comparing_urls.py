@@ -13,10 +13,10 @@ def test_main_page(browser):
     staging_path = os.path.join(TMP_FOLDER, "{}_stag.png".format(mark))
     diff_path = os.path.join(TMP_FOLDER, "{}_diff.png".format(mark))
 
-    browser.get(browser.base_url)
+    browser.get(browser.prod_url)
     browser.save_screenshot(master_path)
 
-    browser.get(browser.reference_url)
+    browser.get(browser.stag_url)
     browser.save_screenshot(staging_path)
 
-    comparison_test_light(master_path, staging_path, diff_path)
+    comparison_test_light(master_path, staging_path, diff_path, clear_images=False)

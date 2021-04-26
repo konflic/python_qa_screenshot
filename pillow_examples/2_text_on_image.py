@@ -10,4 +10,4 @@ font = ImageFont.truetype("arial.ttf", size=60)
 idraw.text((100, 100), text, font=font)
 idraw.rectangle((300, 300, 600, 600), fill="red")
 
-image_object.save('../images/example_product_tag.png')
+image_object.save('example_product_tag.png')

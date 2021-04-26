@@ -15,18 +15,19 @@ def test_main_page_draw_elements_out(browser):
     staging_path = os.path.join(TMP_FOLDER, "{}_stag.png".format(mark))
     diff_path = os.path.join(TMP_FOLDER, "{}_diff.png".format(mark))
 
-    browser.get(browser.base_url)
+    browser.get(browser.prod_url)
     time.sleep(3.5)  # We want slider swipe
     slider_dim = browser.find_element_by_css_selector("#slideshow0").rect
     slider_pag_dim = browser.find_element_by_css_selector(".swiper-pagination").rect
     browser.save_screenshot(master_path)
 
-    browser.get(browser.reference_url)
+    browser.get(browser.stag_url)
     browser.save_screenshot(staging_path)
 
     comparison_test_light_with_draw(
         master_path,
         staging_path,
         diff_path,
-        draw_out=[slider_dim, slider_pag_dim]
+        draw_out=[slider_dim, slider_pag_dim],
+        clear_images=False
     )

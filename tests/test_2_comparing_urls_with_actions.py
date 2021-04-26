@@ -14,8 +14,8 @@ def test_interactive_element(browser):
     diff_screenshot_path = os.path.join(TMP_FOLDER, "{}_diff.png".format(mark))
 
     for url, scr in [
-        (browser.base_url, prod_screenshot_path),
-        (browser.reference_url, stag_screenshot_path)
+        (browser.prod_url, prod_screenshot_path),
+        (browser.stag_url, stag_screenshot_path)
     ]:
         browser.get(url)
         browser.find_element_by_id("form-currency").click()

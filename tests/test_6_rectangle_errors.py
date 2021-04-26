@@ -13,10 +13,10 @@ def test_main_page_rectangles(browser):
     master_path = os.path.join(TMP_FOLDER, "{}_prog.png".format(mark))
     staging_path = os.path.join(TMP_FOLDER, "{}_stag.png".format(mark))
 
-    browser.get(browser.base_url)
+    browser.get(browser.prod_url)
     browser.save_screenshot(master_path)
 
-    browser.get(browser.reference_url)
+    browser.get(browser.stag_url)
     browser.save_screenshot(staging_path)
 
     compare_images_hard(master_path, staging_path)

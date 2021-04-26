@@ -2,8 +2,8 @@ from PIL import Image
 from PIL import ImageChops
 
 # https://stackoverflow.com/questions/35176639/compare-images-python-pil/56280735
-production = Image.open("../images/16d1c_prog.png").convert('RGB')
-staging = Image.open("../images/16d1c_stag.png").convert('RGB')
+production = Image.open("../images/example_product.png").convert('RGB')
+staging = Image.open("../images/example_staging.png").convert('RGB')
 
 # Find difference between images
 difference = ImageChops.difference(production, staging)
