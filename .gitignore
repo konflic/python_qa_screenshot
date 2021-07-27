@@ -132,3 +132,4 @@ screenshots/tmp/*.png
 images/*.png
 allure-report/
 pillow_examples/*.png
+allure-results/
