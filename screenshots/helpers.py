@@ -55,7 +55,11 @@ def comparison_test_light(
         msg = "Found difference: {} for master: {} vs. develop: {}"
 
         raise AssertionError(
-            msg.format(result.getbbox(), master_screenshot, staging_screenshot)
+            msg.format(
+                result.getbbox(),
+                master_screenshot_path,
+                staging_screenshot_path
+            )
         )
     finally:
         if clear_images:

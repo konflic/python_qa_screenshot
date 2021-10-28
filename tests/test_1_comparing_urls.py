@@ -5,7 +5,7 @@ from config import TMP_FOLDER
 from screenshots.helpers import comparison_test_light
 
 
-@allure.title("Comparing pages test with basic")
+@allure.title("Comparing pages test with basic comparison")
 def test_main_page(browser):
     mark = browser.session_id[:5]
 
