@@ -90,14 +90,14 @@ def comparison_test_light_with_draw(
             draw_master = ImageDraw.Draw(master_screenshot)
             draw_staging = ImageDraw.Draw(staging_screenshot)
 
-            dims = (
+            dimensions = (
                 int(element["x"]), int(element["y"]),
                 int(element["x"]) + int(element["width"]),
                 int(element["y"]) + int(element["height"]),
             )
 
-            draw_master.rectangle(dims, fill="gray")
-            draw_staging.rectangle(dims, fill="gray")
+            draw_master.rectangle(dimensions, fill="gray")
+            draw_staging.rectangle(dimensions, fill="gray")
 
     # Returning the bbox diff for images
     result = ImageChops.difference(

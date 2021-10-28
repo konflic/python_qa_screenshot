@@ -6,11 +6,10 @@ from config import TMP_FOLDER
 from screenshots.helpers import compare_images_hard
 
 
-@pytest.mark.parametrize("locator", ["#menu", "#top", "#cart", "#slideshow0"])
+@pytest.mark.parametrize("locator", ["#menu", "#top", "#cart", "#slideshow0", ".product-thumb"])
 @allure.title("Comparing elements of the page: {locator}")
-def test_main_page_elements(browser, locator, screen):
+def test_main_page_elements(browser, locator):
     mark = browser.session_id[:5]
-    browser.set_window_size(*screen.split("x"))
 
     master_path = os.path.join(TMP_FOLDER, "{}_{}_prog.png".format(mark, locator))
     staging_path = os.path.join(TMP_FOLDER, "{}_{}_stag.png".format(mark, locator))
