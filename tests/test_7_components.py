@@ -1,18 +1,14 @@
-import os
 import allure
 import pytest
 
-from config import TMP_FOLDER
-from screenshots.helpers import compare_images_hard
+from screenshots.helpers import compare_images_hard, make_tmp_file
 
 
-@pytest.mark.parametrize("locator", ["#menu", "#top", "#cart", "#slideshow0", ".product-thumb"])
+@pytest.mark.parametrize("locator", ["#menu", "#top", "#cart", "#slideshow0", ".product-thumb", "#carousel0"])
 @allure.title("Comparing elements of the page: {locator}")
 def test_main_page_elements(browser, locator):
-    mark = browser.session_id[:5]
-
-    master_path = os.path.join(TMP_FOLDER, "{}_{}_prog.png".format(mark, locator))
-    staging_path = os.path.join(TMP_FOLDER, "{}_{}_stag.png".format(mark, locator))
+    master_path = make_tmp_file(browser, "prod")
+    staging_path = make_tmp_file(browser, "staging")
 
     browser.get(browser.prod_url)
     browser.find_element_by_css_selector(locator).screenshot(master_path)

@@ -4,6 +4,11 @@ import os
 from io import BytesIO
 from PIL import ImageChops
 from PIL import Image, ImageDraw
+from config import TMP_FOLDER
+
+
+def make_tmp_file(browser, name):
+    return os.path.join(TMP_FOLDER, f"{browser.session_id[:5]}_{name}.png")
 
 
 def comparison_test_light(
@@ -96,8 +101,8 @@ def comparison_test_light_with_draw(
                 int(element["y"]) + int(element["height"]),
             )
 
-            draw_master.rectangle(dimensions, fill="gray")
-            draw_staging.rectangle(dimensions, fill="gray")
+            draw_master.rectangle(dimensions, fill="red")
+            draw_staging.rectangle(dimensions, fill="red")
 
     # Returning the bbox diff for images
     result = ImageChops.difference(
@@ -148,7 +153,7 @@ def comparison_test_light_with_draw(
                 os.remove(difference_screenshot_path)
 
 
-def compare_images_hard(master_screenshot, develop_screenshot, factor=1000, cols=90, rows=80):
+def compare_images_hard(master_screenshot, develop_screenshot, factor=1000, cols=90, rows=80, clear_image=True):
     def _region_analyze(image, x, y, width, height, factor):
         region_status = 0
 
@@ -161,7 +166,7 @@ def compare_images_hard(master_screenshot, develop_screenshot, factor=1000, cols
                     return None
         return region_status // factor
 
-    def analyze(image_production, image_staging, factor, col, row, clear_image=True):
+    def analyze(image_production, image_staging, factor, col, row, clear_image=clear_image):
         production = Image.open(image_production)
         staging = Image.open(image_staging)
 

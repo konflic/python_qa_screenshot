@@ -1,17 +1,13 @@
-import os
 import allure
 
-from config import TMP_FOLDER
-from screenshots.helpers import comparison_test_light
+from screenshots.helpers import comparison_test_light, make_tmp_file
 
 
 @allure.title("Comparing pages test with basic comparison")
 def test_main_page(browser):
-    mark = browser.session_id[:5]
-
-    master_path = os.path.join(TMP_FOLDER, "{}_prog.png".format(mark))
-    staging_path = os.path.join(TMP_FOLDER, "{}_stag.png".format(mark))
-    diff_path = os.path.join(TMP_FOLDER, "{}_diff.png".format(mark))
+    master_path = make_tmp_file(browser, "prod")
+    staging_path = make_tmp_file(browser, "staging")
+    diff_path = make_tmp_file(browser, "diff")
 
     browser.get(browser.prod_url)
     browser.save_screenshot(master_path)

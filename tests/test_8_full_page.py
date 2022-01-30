@@ -10,9 +10,9 @@ def test_main_page_rectangles(browser):
     staging_path = make_tmp_file(browser, "staging")
 
     browser.get(browser.prod_url)
-    browser.save_screenshot(master_path)
+    browser.get_full_page_screenshot_as_file(master_path)
 
     browser.get(browser.stag_url)
-    browser.save_screenshot(staging_path)
+    browser.get_full_page_screenshot_as_file(staging_path)
 
-    compare_images_hard(master_path, staging_path)
+    compare_images_hard(master_path, staging_path, clear_image=False)
