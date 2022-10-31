@@ -7,7 +7,7 @@ from PIL import Image, ImageDraw
 from config import TMP_FOLDER
 
 
-def make_tmp_file(browser, name):
+def make_tmp_file_path(browser, name):
     return os.path.join(TMP_FOLDER, f"{browser.session_id[:5]}_{name}.png")
 
 
@@ -40,19 +40,19 @@ def comparison_test_light(
         result.save(difference_screenshot_path)
 
         allure.attach(
-            name="prod",
+            name="expected",
             body=buff(master_screenshot),
             attachment_type=allure.attachment_type.PNG
         )
 
         allure.attach(
-            name="stag",
+            name="actual",
             body=buff(staging_screenshot),
             attachment_type=allure.attachment_type.PNG
         )
 
         allure.attach(
-            name="difference",
+            name="diff",
             body=buff(result),
             attachment_type=allure.attachment_type.PNG
         )

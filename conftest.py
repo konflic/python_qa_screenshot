@@ -9,9 +9,9 @@ from selenium import webdriver
 def pytest_addoption(parser):
     parser.addoption("--browser", action="store", default="chrome")
     parser.addoption("--mobile", action="store_true", help="test mobile emulation")
-    parser.addoption("--prod", action="store", default="https://konflic.github.io/examples/opencart/prod.html")
+    parser.addoption("--prod", action="store", default=f"{BASE_URL}/prod.html")
     parser.addoption("--stage", action="store", choices=["branch", "staging"], default="branch")
-    parser.addoption("--executor", action="store", default="192.168.1.88")
+    parser.addoption("--executor", action="store", default="127.0.0.1")
 
 
 @pytest.fixture(scope="session")
@@ -48,7 +48,7 @@ def browser(request):
 
     allure.attach(
         name="config",
-        body=f"'stag': {stage_url}\n'prod': {prod_url}",
+        body=f"'std': {stage_url}\n'prd': {prod_url}",
         attachment_type=allure.attachment_type.TEXT
     )
 

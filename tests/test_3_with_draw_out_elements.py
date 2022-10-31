@@ -1,15 +1,15 @@
 import time
 import allure
 
-from screenshots.helpers import comparison_test_light_with_draw, make_tmp_file
+from screenshots.helpers import comparison_test_light_with_draw, make_tmp_file_path
 
 
 @allure.label("testType", "screenshotDiff")
 @allure.title("Comparing pages test with draw elements out")
 def test_main_page_draw_elements_out(browser):
-    master_path = make_tmp_file(browser, "prod")
-    staging_path = make_tmp_file(browser, "staging")
-    diff_path = make_tmp_file(browser, "diff")
+    master_path = make_tmp_file_path(browser, "prod")
+    staging_path = make_tmp_file_path(browser, "staging")
+    diff_path = make_tmp_file_path(browser, "diff")
 
     browser.get(browser.prod_url)
     time.sleep(3)  # We want slider swipe
@@ -25,5 +25,5 @@ def test_main_page_draw_elements_out(browser):
         staging_path,
         diff_path,
         # draw_out=[slider_dim, slider_pag_dim],
-        clear_images=False
+        clear_images=False,
     )
