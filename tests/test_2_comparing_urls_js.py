@@ -15,7 +15,7 @@ def test_interactive_element(browser):
         (browser.stag_url, stag_screenshot_path),
     ]:
         browser.get(url)
-        browser.find_element_by_id("form-currency").click()
+        browser.find_element(value="form-currency").click()
         browser.save_screenshot(scr)
 
     comparison_test_light(

@@ -1,5 +1,6 @@
 import time
 import allure
+from selenium.webdriver.common.by import By
 
 from screenshots.helpers import comparison_test_light_with_draw, make_tmp_file_path
 
@@ -13,8 +14,8 @@ def test_main_page_draw_elements_out(browser):
 
     browser.get(browser.prod_url)
     time.sleep(3)  # We want slider swipe
-    # slider_dim = browser.find_element_by_css_selector("#slideshow0").rect
-    # slider_pag_dim = browser.find_element_by_css_selector(".swiper-pagination").rect
+    slider_dim = browser.find_element(value="slideshow0").rect
+    slider_pag_dim = browser.find_element(By.CSS_SELECTOR, ".swiper-pagination").rect
     browser.save_screenshot(master_path)
 
     browser.get(browser.stag_url)
@@ -24,6 +25,6 @@ def test_main_page_draw_elements_out(browser):
         master_path,
         staging_path,
         diff_path,
-        # draw_out=[slider_dim, slider_pag_dim],
+        draw_out=[slider_dim, slider_pag_dim],
         clear_images=False,
     )

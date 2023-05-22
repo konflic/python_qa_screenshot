@@ -1,5 +1,6 @@
 import allure
 import pytest
+from selenium.webdriver.common.by import By
 
 from screenshots.helpers import make_tmp_file_path, comparison_test_light
 
@@ -13,9 +14,9 @@ def test_main_page_elements(browser, locator):
     difference = make_tmp_file_path(browser, "diff")
 
     browser.get(browser.prod_url)
-    browser.find_element_by_css_selector(locator).screenshot(master_path)
+    browser.find_element(By.CSS_SELECTOR, locator).screenshot(master_path)
 
     browser.get(browser.stag_url)
-    browser.find_element_by_css_selector(locator).screenshot(staging_path)
+    browser.find_element(By.CSS_SELECTOR, locator).screenshot(staging_path)
 
     comparison_test_light(master_path, staging_path, difference, clear_images=False)
