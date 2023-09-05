@@ -1,9 +1,10 @@
-import os
 import allure
 import pytest
 
 from config import BASE_URL
 from selenium import webdriver
+from selenium.webdriver.chrome.options import Options as ChromeOptions
+from selenium.webdriver.firefox.service import Service as FFService
 
 
 def pytest_addoption(parser):
@@ -22,33 +23,41 @@ def browser(request):
     executor = request.config.getoption("--executor")
     stage_url = f"{BASE_URL}/{request.config.getoption('--stage')}.html"
 
+    options = None
+
     capabilities = {
         "browserName": browser,
-        "screenResolution": "1920x1080",
         "selenoid:options": {
-            "enableVNC": True
+            "enableVNC": True,
+            "timeZone": "Europe/Moscow",
         },
-        "timeZone": "Europe/Moscow",
         "goog:chromeOptions": {}
     }
+
+    if browser == "chrome":
+        options = ChromeOptions()
 
     if mobile:
         capabilities["browserName"] = "chrome"
         capabilities["goog:chromeOptions"]["mobileEmulation"] = {"deviceName": "iPhone 5/SE"}
 
+    for k, v in capabilities.items():
+        options.set_capability(k, v)
+
     if browser == "firefox":
-        driver = webdriver.Firefox(executable_path=os.path.expanduser("~/Downloads/drivers/geckodriver"))
+        service = FFService()
+        driver = webdriver.Firefox(service=service)
     else:
         driver = webdriver.Remote(
             command_executor=f"http://{executor}:4444/wd/hub",
-            desired_capabilities=capabilities
+            options=options
         )
 
     driver.stag_url, driver.prod_url = stage_url, prod_url
 
     allure.attach(
         name="config",
-        body=f"'std': {stage_url}\n'prd': {prod_url}",
+        body=f"'stg': {stage_url}\n'prd': {prod_url}",
         attachment_type=allure.attachment_type.TEXT
     )
 
