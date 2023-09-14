@@ -10,7 +10,6 @@ difference = ImageChops.difference(production, staging)
 
 if difference.getbbox():
     print("Different!")
+    difference.save("difference.png")
 else:
     print("Not different!")
-
-difference.save("difference.png")

@@ -4,6 +4,7 @@ import pytest
 from config import BASE_URL
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options as ChromeOptions
+from selenium.webdriver.firefox.options import Options as FFOptions
 from selenium.webdriver.firefox.service import Service as FFService
 
 
@@ -11,7 +12,7 @@ def pytest_addoption(parser):
     parser.addoption("--browser", action="store", default="chrome")
     parser.addoption("--mobile", action="store_true", help="test mobile emulation")
     parser.addoption("--prod", action="store", default=f"{BASE_URL}/prod.html")
-    parser.addoption("--stage", action="store", choices=["branch", "staging"], default="branch")
+    parser.addoption("--stage", action="store", choices=["branch", "staging"], default="staging")
     parser.addoption("--executor", action="store", default="127.0.0.1")
 
 
@@ -36,10 +37,11 @@ def browser(request):
 
     if browser == "chrome":
         options = ChromeOptions()
+    elif browser == "firefox":
+        options = FFOptions()
 
     if mobile:
-        capabilities["browserName"] = "chrome"
-        capabilities["goog:chromeOptions"]["mobileEmulation"] = {"deviceName": "iPhone 5/SE"}
+        options.add_experimental_option("mobileEmulation", {"deviceName": "iPhone XR"})
 
     for k, v in capabilities.items():
         options.set_capability(k, v)
